@@ -18,20 +18,10 @@ const CONFIG_MAP = {
   DATA_DIR,
   CACHE_DIR: path.join(DATA_DIR, 'cache'),
   CACHE_LIMIT_IN_BYTES: xbytes.parseSize(process.env.CACHE_LIMIT ?? '2GB'),
-  BOT_STATUS: process.env.BOT_STATUS ?? 'online',
-  BOT_ACTIVITY_TYPE: process.env.BOT_ACTIVITY_TYPE ?? 'LISTENING',
-  BOT_ACTIVITY_URL: process.env.BOT_ACTIVITY_URL ?? '',
-  BOT_ACTIVITY: process.env.BOT_ACTIVITY ?? 'music',
   ENABLE_SPONSORBLOCK: process.env.ENABLE_SPONSORBLOCK === 'true',
   SPONSORBLOCK_TIMEOUT: process.env.ENABLE_SPONSORBLOCK ?? 5,
 } as const;
 
-const BOT_ACTIVITY_TYPE_MAP = {
-  PLAYING: ActivityType.Playing,
-  LISTENING: ActivityType.Listening,
-  WATCHING: ActivityType.Watching,
-  STREAMING: ActivityType.Streaming,
-} as const;
 
 @injectable()
 export default class Config {
@@ -43,10 +33,6 @@ export default class Config {
   readonly DATA_DIR!: string;
   readonly CACHE_DIR!: string;
   readonly CACHE_LIMIT_IN_BYTES!: number;
-  readonly BOT_STATUS!: PresenceStatusData;
-  readonly BOT_ACTIVITY_TYPE!: Exclude<ActivityType, ActivityType.Custom>;
-  readonly BOT_ACTIVITY_URL!: string;
-  readonly BOT_ACTIVITY!: string;
   readonly ENABLE_SPONSORBLOCK!: boolean;
   readonly SPONSORBLOCK_TIMEOUT!: number;
 
@@ -57,10 +43,6 @@ export default class Config {
         process.exit(1);
       }
 
-      if (key === 'BOT_ACTIVITY_TYPE') {
-        this[key] = BOT_ACTIVITY_TYPE_MAP[(value as string).toUpperCase() as keyof typeof BOT_ACTIVITY_TYPE_MAP];
-        continue;
-      }
 
       if (typeof value === 'number') {
         this[key as ConditionalKeys<typeof CONFIG_MAP, number>] = value;
