@@ -27,8 +27,8 @@ jobs:
           
       - name: Commit changes
         run: |
-          git config user.name 'GitHub Actions'
-          git config user.email 'actions@github.com'
+          git config user.name 'Your Name'  # Replace with your name
+          git config user.email 'YOUR_GITHUB_USERNAME@users.noreply.github.com'  # Replace with your GitHub username
           git add bot.ts muse/src/services/config.ts
           git commit -m 'Remove specific content from bot.ts and config.ts'
-          git push
+          git push origin HEAD:main  # Adjust the branch if needed
