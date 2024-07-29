@@ -3,10 +3,10 @@ name: Modify Files
 on:
   push:
     branches:
-      - main  # Adjust this to the branch you want to trigger the workflow on
+      - master  # Trigger the workflow on push to the master branch
   pull_request:
     branches:
-      - main  # Adjust this to the branch you want to trigger the workflow on
+      - master  # Trigger the workflow on pull requests targeting the master branch
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -20,11 +20,24 @@ jobs:
       - name: Remove specific content from bot.ts
         run: |
           sed -i '/this.client.user!.setPresence({/,/status: this.config.BOT_STATUS,}/d' src/bot.ts
-          
-      - name: Remove specific content from config.ts
+
+      - name: Remove specific blocks from config.ts
         run: |
-          sed -i '/BOT_STATUS: process.env.BOT_STATUS ?? '\''online'\''/,/if (key === '\''BOT_ACTIVITY_TYPE'\''),/d' src/services/config.ts
+          # Remove block 1
+          sed -i '/BOT_STATUS: process.env.BOT_STATUS ?? '\''online'\''/,/BOT_ACTIVITY: process.env.BOT_ACTIVITY ?? '\''music'\''/d' src/services/config.ts
           
+          # Remove block 2
+          sed -i '/const BOT_ACTIVITY_TYPE_MAP = {/,/} as const;/d' src/services/config.ts
+          
+          # Remove block 3
+          sed -i '/readonly BOT_STATUS!: PresenceStatusData;/d' src/services/config.ts
+          sed -i '/readonly BOT_ACTIVITY_TYPE!: Exclude<ActivityType, ActivityType.Custom>;d' src/services/config.ts
+          sed -i '/readonly BOT_ACTIVITY_URL!: string;/d' src/services/config.ts
+          sed -i '/readonly BOT_ACTIVITY!: string;/d' src/services/config.ts
+          
+          # Remove block 4
+          sed -i '/if (key === '\''BOT_ACTIVITY_TYPE'\'')/,/continue;/d' src/services/config.ts
+
       - name: Commit changes
         run: |
           git config user.name 'Marshall'
