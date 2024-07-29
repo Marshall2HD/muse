@@ -25,8 +25,9 @@ jobs:
         run: |
           sed -i "/BOT_STATUS: process.env.BOT_STATUS ?? 'online'/d" src/services/config.ts
           sed -i '/BOT_ACTIVITY_TYPE: process.env.BOT_ACTIVITY_TYPE ?? '\''LISTENING'\''/d' src/services/config.ts
-          sed -i '/BOT_ACTIVITY_URL: process.env.BOT_ACTIVITY_URL ?? '\'''/d' src/services/config.ts
+          sed -i '/BOT_ACTIVITY_URL: process.env.BOT_ACTIVITY_URL ?? '\'''\''/d' src/services/config.ts
           sed -i '/BOT_ACTIVITY: process.env.BOT_ACTIVITY ?? '\''music'\''/d' src/services/config.ts
+
 
       - name: Remove BOT_ACTIVITY_TYPE_MAP snippet
         run: |
