@@ -33,6 +33,10 @@ jobs:
         run: |
           sed -i '/BOT_STATUS/d; /BOT_ACTIVITY/d' src/services/config.ts
 
+      - name: Remove Bot Activity Import and stuff
+        run: |
+          sed -i '/import {ActivityType, PresenceStatusData} from '\''discord.js'\'';/d' src/services/config.ts
+
       - name: Commit changes
         run: |
           git config user.name 'Marshall'
