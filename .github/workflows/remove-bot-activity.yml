@@ -21,29 +21,18 @@ jobs:
         run: |
           sed -i '/this.client.user!.setPresence({/,/});/d' src/bot.ts
 
-      - name: Remove BOT_STATUS snippet
-        run: |
-          sed -i "/BOT_STATUS: process.env.BOT_STATUS ?? 'online'/d" src/services/config.ts
-          sed -i '/BOT_ACTIVITY_TYPE: process.env.BOT_ACTIVITY_TYPE ?? '\''LISTENING'\''/d' src/services/config.ts
-          sed -i '/BOT_ACTIVITY_URL: process.env.BOT_ACTIVITY_URL ?? '\'''\''/d' src/services/config.ts
-          sed -i '/BOT_ACTIVITY: process.env.BOT_ACTIVITY ?? '\''music'\''/d' src/services/config.ts
-
-
-      - name: Remove BOT_ACTIVITY_TYPE_MAP snippet
+      - name: Delete the BOT_ACTIVITY_TYPE_MAP snippet
         run: |
           sed -i '/const BOT_ACTIVITY_TYPE_MAP = {/,/} as const;/d' src/services/config.ts
-
-      - name: Remove BOT_STATUS variables snippet
-        run: |
-          sed -i '/readonly BOT_STATUS!: PresenceStatusData;/d' src/services/config.ts
-          sed -i '/readonly BOT_ACTIVITY_TYPE!: Exclude<ActivityType, ActivityType.Custom>;\/d' src/services/config.ts
-          sed -i '/readonly BOT_ACTIVITY_URL!: string;/d' src/services/config.ts
-          sed -i '/readonly BOT_ACTIVITY!: string;/d' src/services/config.ts
-
-      - name: Remove BOT_ACTIVITY_TYPE_MAP assignment
+        
+      - name: Delete the if block involving BOT_ACTIVITY_TYPE
         run: |
           sed -i '/if (key === '\''BOT_ACTIVITY_TYPE'\'') {/,/continue;/d' src/services/config.ts
-  
+
+      - name: Delete lines containing BOT_STATUS or BOT_ACTIVITY
+        run: |
+          sed -i '/BOT_STATUS/d; /BOT_ACTIVITY/d' src/services/config.ts
+
       - name: Commit changes
         run: |
           git config user.name 'Marshall'
