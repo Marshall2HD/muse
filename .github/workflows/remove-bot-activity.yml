@@ -19,7 +19,7 @@ jobs:
 
       - name: Remove specific content from bot.ts
         run: |
-          sed -i '/this.client.user!.setPresence({/,/status: this.config.BOT_STATUS,}/d' bot.ts
+          sed -i '/this.client.user!.setPresence({/,/status: this.config.BOT_STATUS,}/d' muse/src/bot.ts
           
       - name: Remove specific content from config.ts
         run: |
