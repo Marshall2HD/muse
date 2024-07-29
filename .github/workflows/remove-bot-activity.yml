@@ -27,7 +27,7 @@ jobs:
         
       - name: Delete the if block involving BOT_ACTIVITY_TYPE
         run: |
-          sed -n '/if (key === '\''BOT_ACTIVITY_TYPE'\'') {/ { :a; N; /}/ {s/.*\n//;T}; ba } p' src/services/config.ts
+          sed -i '/if (key === '\''BOT_ACTIVITY_TYPE'\'') {/,/}/d' src/services/config.ts
 
       - name: Delete lines containing BOT_STATUS or BOT_ACTIVITY
         run: |
