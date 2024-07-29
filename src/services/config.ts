@@ -21,7 +21,6 @@ const CONFIG_MAP = {
   SPONSORBLOCK_TIMEOUT: process.env.ENABLE_SPONSORBLOCK ?? 5,
 } as const;
 
-
 @injectable()
 export default class Config {
   readonly DISCORD_TOKEN!: string;
@@ -41,7 +40,6 @@ export default class Config {
         console.error(`Missing environment variable for ${key}`);
         process.exit(1);
       }
-
 
       if (typeof value === 'number') {
         this[key as ConditionalKeys<typeof CONFIG_MAP, number>] = value;
