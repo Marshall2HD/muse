@@ -4,7 +4,6 @@ import {injectable} from 'inversify';
 import path from 'path';
 import xbytes from 'xbytes';
 import {ConditionalKeys} from 'type-fest';
-import {ActivityType, PresenceStatusData} from 'discord.js';
 dotenv.config();
 
 export const DATA_DIR = path.resolve(process.env.DATA_DIR ? process.env.DATA_DIR : './data');
