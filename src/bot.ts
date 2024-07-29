@@ -144,3 +144,25 @@ export default class {
         );
       }
 
+      this.client.user!.setPresence({
+        activities: [
+          {
+            name: this.config.BOT_ACTIVITY,
+            type: this.config.BOT_ACTIVITY_TYPE,
+            url: this.config.BOT_ACTIVITY_URL === '' ? undefined : this.config.BOT_ACTIVITY_URL,
+          },
+        ],
+        status: this.config.BOT_STATUS,
+      });
+
+      spinner.succeed(`Ready! Invite the bot with https://discordapp.com/oauth2/authorize?client_id=${this.client.user?.id ?? ''}&scope=bot%20applications.commands&permissions=36700160`);
+    });
+
+    this.client.on('error', console.error);
+    this.client.on('debug', debug);
+
+    this.client.on('guildCreate', handleGuildCreate);
+    this.client.on('voiceStateUpdate', handleVoiceStateUpdate);
+    await this.client.login();
+  }
+}
