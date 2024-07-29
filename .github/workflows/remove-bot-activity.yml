@@ -1,0 +1,33 @@
+name: Modify Files
+
+on:
+  push:
+    branches:
+      - main  # Change this to the branch you want to trigger the workflow on
+  pull_request:
+    branches:
+      - main  # Change this to the branch you want to trigger the workflow on
+
+jobs:
+  update-files:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Remove specific content from bot.ts
+        run: |
+          sed -i '/this.client.user!.setPresence({/,/status: this.config.BOT_STATUS,/{d;}}/' bot.ts
+          
+      - name: Remove specific content from config.ts
+        run: |
+          sed -i '/BOT_STATUS: process.env.BOT_STATUS ?? '\''online'\''/,/if (key === '\''BOT_ACTIVITY_TYPE'\''),{d;}}/' muse/src/services/config.ts
+          
+      - name: Commit changes
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@github.com'
+          git add bot.ts muse/src/services/config.ts
+          git commit -m 'Remove specific content from bot.ts and config.ts'
+          git push
